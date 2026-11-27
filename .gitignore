@@ -1,0 +1,12 @@
+# ROM dumps and extracted binaries are never redistributed here (see README)
+*.rom
+*.bin
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+# secrets
+.env
+*.key
+*.pem
