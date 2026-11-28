@@ -1,6 +1,9 @@
-# ROM dumps and extracted binaries are never redistributed here (see README)
+# ROM dumps, extracted binaries and tool artifacts are never committed (see README)
 *.rom
 *.bin
+*.log
+*.zip
+nvflash*
 # OS / editor junk
 .DS_Store
 Thumbs.db

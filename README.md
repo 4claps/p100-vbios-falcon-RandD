@@ -102,23 +102,38 @@ themselves are not redistributed here).
 │   ├── 02-perf-table-analysis.md    — full parse of Performance / Virtual P-State /
 │   │                                  Memory Clock / OC / Power Policy tables, cap
 │   │                                  analysis, and the hardware-safe patch spec
-│   └── 03-bit-perf-ptrs.md          — BIT PERF_PTRS (token 0x50) pointer map, all cards
+│   ├── 03-bit-perf-ptrs.md          — BIT PERF_PTRS (token 0x50) pointer map, all cards
+│   └── 04-step-by-step-flash-guide.md — plain-language step-by-step: backup, patch,
+│                                      flash, validate, rollback
 ├── data/
 │   ├── perf-ptrs.json               — raw BIT PERF_PTRS pointer data (4 cards)
 │   └── SHA256SUMS                   — checksums of the analyzed ROM files
 ├── references/
-│   └── nouveau-reference.md         — which open-source driver files were used and
-│                                      what each one shows
+│   ├── nouveau-reference.md         — which open-source driver files were used and
+│   │                                  what each one shows
+│   └── fbr-ram-downloader.md        — related work: the V100 register-level analog
+│                                      (FBR RAM Downloader) and what transfers to GP100
 └── LICENSE                          — MIT
 ```
+
+## Related work
+
+FBR RAM Downloader (https://github.com/FBR-ROM/FBR-RAM-Downloader) solves the same
+"sibling SKU got the faster clock" problem on Tesla V100 by writing HBM PLL
+registers live through BAR0 instead of touching firmware. Different lock, different
+clock axis — no direct P100 win — but its safety model (hardware-counter
+verification, per-card all-or-nothing rollback, refuse-to-run state gating,
+canary checks around every step) is the right discipline for the flash procedure in
+`docs/04-step-by-step-flash-guide.md`. Analysis: `references/fbr-ram-downloader.md`.
 
 ## Reading order
 
 1. This README.
-2. `docs/02-perf-table-analysis.md` — where the caps are and how to lift them safely.
-3. `docs/01-falcon-pmu-analysis.md` — why the only real "hard stop" is the encrypted
+2. `docs/04-step-by-step-flash-guide.md` — the plain-language step-by-step guide.
+3. `docs/02-perf-table-analysis.md` — where the caps are and how to lift them safely.
+4. `docs/01-falcon-pmu-analysis.md` — why the only real "hard stop" is the encrypted
    PMU partition, which this fix deliberately does **not** touch.
-4. `docs/03-bit-perf-ptrs.md` / `data/perf-ptrs.json` — the pointer map used to
+5. `docs/03-bit-perf-ptrs.md` / `data/perf-ptrs.json` — the pointer map used to
    locate everything.
 
 ## License
